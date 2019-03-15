@@ -1,0 +1,33 @@
+image: go:1.11.5
+
+before_script:
+  - mkdir -p ./dist/
+
+stages:
+  - build
+  - release
+
+job_build_to_linux:
+  stage: build
+  script:
+    - go build -o ./dist/$GOOS-$GOARCH/$CI_PROJECT_NAME
+  only:
+    - master
+  variables:
+    GOOS: linux
+    GOARCH: amd64
+
+job_build_to_win:
+  stage: build
+  script:
+    - go build -o ./dist/$GOOS-$GOARCH/$CI_PROJECT_NAME.exe
+  only:
+    - master
+  variables:
+    GOOS: windows
+    GOARCH: amd64
+  artifacts:
+    paths:
+      - dist/**/*
+    untracked: false
+    expire_in: 30 days
