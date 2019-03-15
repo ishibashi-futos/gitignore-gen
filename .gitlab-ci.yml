@@ -1,4 +1,4 @@
-image: go:1.11.5
+image: golang:1.11.5
 
 before_script:
   - mkdir -p ./dist/
