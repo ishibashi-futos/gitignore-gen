@@ -1,6 +1,7 @@
 image: golang:1.11.5
 
 before_script:
+  - rm -rf ./dist/ && true
   - mkdir -p ./dist/
 
 stages:
@@ -16,6 +17,11 @@ job_build_to_linux:
   variables:
     GOOS: linux
     GOARCH: amd64
+  artifacts:
+    paths:
+      - dist/**/*
+    untracked: false
+    expire_in: 30 days
 
 job_build_to_win:
   stage: build
