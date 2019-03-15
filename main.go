@@ -20,7 +20,10 @@ func main() {
 	if *lang == "" {
 		log.Fatal("error")
 	}
-	resp, _ := http.Get(fmt.Sprintf(url, *lang))
+	resp, err := http.Get(fmt.Sprintf(url, *lang))
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer resp.Body.Close()
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -38,8 +41,7 @@ func writeToGitignoreFile(bytes *[]byte) error {
 	}
 	defer file.Close()
 
-	_, err = file.Write(*bytes)
-	if err != nil {
+	if _, err = file.Write(*bytes); err != nil {
 		return err
 	}
 	return nil
