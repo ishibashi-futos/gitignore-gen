@@ -5,8 +5,35 @@ before_script:
   - mkdir -p ./dist/
 
 stages:
+  - collect_assets_list
+  - collect_assets_languages
+  - generate_assets
   - build
   - release
+
+cache:
+  paths:
+    - assets/
+    - assets.go
+
+cllect_list:
+  stage: collect_assets_list
+  script:
+    - mkdir -p assets/list/
+    - curl https://gitignore.io/api/list?format=lines > ./assets/list.txt
+
+collect_langs:
+  stage: collect_assets_languages
+  script:
+    - mkdir -p assets/languages/
+    - for lang in $(cat ./assets/list/list.txt) ; do curl https://gitignore.io/api/$lang > ./assets/languages/$lang.txt ; done
+
+generate:
+  stage: generate_assets
+  script:
+    - go get github.com/jessevdk/go-assets-builder
+    - go install github.com/jessevdk/go-assets-builder
+    - ${GOPATH}/bin/go-assets-builder assets/ > ./assets.go
 
 job_build_to_linux:
   stage: build
