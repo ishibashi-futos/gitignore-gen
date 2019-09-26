@@ -21,13 +21,13 @@ cllect_list:
   stage: collect_assets_list
   script:
     - mkdir -p assets/list/
-    - curl https://gitignore.io/api/list?format=lines > ./assets/list/list.txt
+    - curl -s https://gitignore.io/api/list?format=lines > ./assets/list/list.txt
 
 collect_langs:
   stage: collect_assets_languages
   script:
     - mkdir -p assets/languages/
-    - for lang in $(cat ./assets/list/list.txt) ; do curl https://gitignore.io/api/$lang > ./assets/languages/$lang.txt ; done
+    - for lang in $(cat ./assets/list/list.txt) ; do curl -s https://gitignore.io/api/$lang > ./assets/languages/$lang.txt ; done
 
 generate:
   stage: generate_assets
