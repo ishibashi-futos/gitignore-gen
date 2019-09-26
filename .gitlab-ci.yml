@@ -8,6 +8,7 @@ stages:
   - collect_assets_list
   - collect_assets_languages
   - generate_assets
+  - test
   - build
   - release
 
@@ -34,6 +35,11 @@ generate:
     - go get github.com/jessevdk/go-assets-builder
     - go install github.com/jessevdk/go-assets-builder
     - ${GOPATH}/bin/go-assets-builder assets/ > ./assets.go
+
+job_test:
+  stage: test
+  script:
+    - go test
 
 job_build_to_linux:
   stage: build
