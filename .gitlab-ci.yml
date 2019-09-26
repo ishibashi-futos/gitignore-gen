@@ -21,7 +21,7 @@ cllect_list:
   stage: collect_assets_list
   script:
     - mkdir -p assets/list/
-    - curl https://gitignore.io/api/list?format=lines > ./assets/list.txt
+    - curl https://gitignore.io/api/list?format=lines > ./assets/list/list.txt
 
 collect_langs:
   stage: collect_assets_languages
